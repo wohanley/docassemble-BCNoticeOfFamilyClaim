@@ -1,0 +1,529 @@
+comment: |
+  The metadata section controls the tab title and saved interview title. You can delete this section if you include this YAML file in another YAML file.
+metadata:
+  title: |
+    Notice of Family Claim
+  short title: |
+    NoFC
+---
+comment: |
+  This section is used by MAVirtualCourts to control how some of the questions work.
+mandatory: True
+code: |
+  interview_metadata # make sure we initialize the object
+  if not defined("interview_metadata['bcscf3nofc']"):
+    interview_metadata.initializeObject('bcscf3nofc')
+  interview_metadata['bcscf3nofc'].update({
+    'title': 'Notice of Family Claim',
+    'short title': 'NoFC',
+    'description': 'For starting a family law case in BC Supreme Court.',
+    'original_form': 'https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/supreme-family/f3.pdf',
+    'allowed courts': [
+    ],
+    'categories': [
+      'Family Law',
+    ],
+    'logic block variable': 'bcscf3nofc',
+    'attachment block variable': 'bcscf3nofc_attachment',
+    'typical role': 'plaintiff',
+  })
+---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+---
+features:
+  navigation: True
+---
+sections:
+  - review_bcscf3nofc: Review your answers
+---
+id: interview_order_bcscf3nofc
+code: |
+  # This is a placeholder to control logic flow in this interview
+
+  basic_questions_intro_screen 
+  bcscf3nofc_intro
+  # Set the allowed courts for this interview
+  allowed_courts = interview_metadata["bcscf3nofc"]["allowed courts"]
+  nav.set_section('review_bcscf3nofc')
+  user_role = 'plaintiff'
+
+  plaintiff_is_claiming_divorce
+  plaintiff_is_claiming_order_respecting_children
+  plaintiff_is_claiming_spousal_support
+  plaintiff_is_claiming_family_property_and_debt
+  plaintiff_is_claiming_order_for_costs
+  plaintiff_is_claiming_alternative_order
+
+  prior_written_agreement_does_relate
+  prior_court_order_does_relate
+  prior_court_proceeding_does_relate
+  nothing_prior_does_relate
+  if prior_written_agreement_does_relate:
+    prior_written_agreement_date
+  if prior_court_order_does_relate:
+    prior_court_order_date
+  if prior_court_proceeding_does_relate:
+    prior_court_proceeding_file_number
+    prior_court_proceeding_registry
+
+  court_file_number
+  court_registry
+  place_of_trial
+  place_of_trial_registry_address
+
+  plaintiff_has_lawyer
+  if plaintiff_has_lawyer:
+    plaintiff_lawyer
+
+  str(plaintiffs[0])
+  str(respondents[0])
+  plaintiffs[0].address.block()
+  signature_date
+
+  bcscf3nofc_preview_question # Pre-canned preview screen
+
+  basic_questions_signature_flow
+  if plaintiff_has_lawyer:
+    signer_identity
+  if signer_identity == 'Me':
+    plaintiffs[0].signature
+  if signer_identity == 'My lawyer':
+    plaintiff_lawyer.signature
+
+  bcscf3nofc = True
+---
+comment: |
+  This question is used to introduce your interview. Please customize
+id: Notice of Family Claim
+continue button field: bcscf3nofc_intro
+question: |
+  Notice of Family Claim
+subquestion: |
+  For starting a family law case in BC Supreme Court.
+---
+id: Placeholder preview screen
+continue button field: bcscf3nofc_preview_question
+question: |
+  Placeholder preview screen
+subquestion: |
+  Here is a preview of the form you'll sign on the next page. 
+  
+   ${bcscf3nofc_attachment['preview']}
+---
+id: Claims
+question: |
+  What do you need the court to do?
+fields:
+  - 'I need an order for divorce.': plaintiff_is_claiming_divorce
+    datatype: yesno
+  - 'I need an order respecting children.': plaintiff_is_claiming_order_respecting_children
+    datatype: yesno
+  - 'I need an order for spousal support.': plaintiff_is_claiming_spousal_support
+    datatype: yesno
+  - 'I need an order relating to family property and family debt.': plaintiff_is_claiming_family_property_and_debt
+    datatype: yesno
+  - 'I need an order for legal costs.': plaintiff_is_claiming_order_for_costs
+    datatype: yesno
+  - 'I need another kind of order.': plaintiff_is_claiming_alternative_order
+    datatype: yesno
+---
+id: Case history
+question: |
+  Has anything legal happened with this case so far?
+fields:
+  - "I already made a written agreement related to this matter.": prior_written_agreement_does_relate
+    datatype: yesno
+  - 'The court has already made an order about this matter.': prior_court_order_does_relate
+    datatype: yesno
+  - 'There has already been a court proceeding related to this matter.': prior_court_proceeding_does_relate
+    datatype: yesno
+  - 'None of the above applies. There is no history for this case.': nothing_prior_does_relate
+    datatype: yesno
+---
+id: written agreement
+question: When did you sign a written agreement about this matter?
+fields:
+  - no label: prior_written_agreement_date
+    datatype: date
+---
+id: court order date
+question: When did the court issue an order about this matter?
+fields:
+  - no label: prior_court_order_date
+    datatype: date
+---
+id: prior proceeding
+question: What are the details of the previous court proceeding in this matter?
+fields:
+  - 'Prior court proceeding file number': prior_court_proceeding_file_number
+  - 'Prior court proceeding registry': prior_court_proceeding_registry
+---
+id: your name
+question: What is your name?
+fields:
+  - Your name: plaintiff_name
+---
+id: respondent name
+question: What is the respondent's name?
+fields:
+  - "Respondent's name": respondent_name
+---
+id: plaintiff relationship
+question: What is your relationship to ${ respondent_name }?
+fields:
+  - "Your relationship to ${ respondent_name }": plaintiff_relationship
+---
+id: respondent relationship
+question: "What is ${ respondent_name }'s relationship to you?"
+fields:
+  - "${ respondent_name }'s relationship to you": respondent_relationship
+---
+id: Relationship milestones
+question: |
+  What has happened in your relationship with ${ respondent_name } so far?
+fields:
+  - 'Our relationship became marriage-like.': plaintiff_and_respondent_did_begin_marriage_like_relationship
+    datatype: yesno
+  - 'We got married.': plaintiff_and_respondent_did_marry
+    datatype: yesno
+  - 'We separated.': plaintiff_and_respondent_did_separate
+    datatype: yesno
+  - 'We were divorced.': plaintiff_and_respondent_were_divorced
+    datatype: yesno
+---
+id: When did your relationship become marriage-like?
+question: |
+  When did your relationship with ${ respondent_name } become marriage-like?
+fields:
+  - no label: marriage_like_relationship_start_date
+    datatype: date
+---
+id: When were you married?
+question: |
+  When did you and ${ respondent_name } get married?
+fields:
+  - no label: marriage_date
+    datatype: date
+---
+id: When did you separate?
+question: |
+  When did you and ${ respondent_name } separate?
+fields:
+  - no label: separation_date
+    datatype: date
+---
+id: When were you divorced?
+question: |
+  When were you and ${ respondent_name } divorced?
+fields:
+  - no label: divorce_date
+    datatype: date
+---
+id: plaintiff has lawyer
+question: Do you have a lawyer?
+fields:
+  - no label: plaintiff_has_lawyer
+    datatype: yesno
+---
+id: lawyer name
+question: What is your lawyer's name?
+fields:
+  - "Lawyer's name": plaintiff_lawyer_name
+---
+id: Personal information
+question: |
+  Personal information
+subquestion: |
+  Information about you and the other people involved in this case.
+fields:
+  - 'Plaintiff fax number': plaintiff_fax
+  - "Plaintiff's lawyer's name": plaintiff_lawyer_name
+---
+id: Courts
+question: |
+  Courts
+subquestion: |
+  Information about the courts and registries related to this case
+fields:
+  - 'Court file number': court_file_number
+  - 'Court registry': court_registry
+  - 'Place the trial will happen': place_of_trial
+  - 'The address for the court registry for the trial': place_of_trial_registry_address
+---
+id: Lawyer certificate
+question: |
+  Lawyer certificate
+subquestion: |
+  If you are making a claim under the under the Family Law Act and you have a lawyer, the lawyer must complete a certificate.
+fields:
+  - 'Date of lawyer signature': lawyer_signature_date
+    datatype: date
+  - "Plaintiff's lawyer's name": plaintiff_lawyer_name
+---
+id: signer identity
+question: Who is going to sign this form?
+field: signer_identity
+choices:
+  - Me
+  - My lawyer
+---
+id: Signatures
+question: |
+  Signatures
+subquestion: |
+  Sign the form.
+fields:
+  - 'Plaintiff is signing this notice': signer_is_plaintiff
+    datatype: yesno
+  - "Plaintiff's lawyer is signing this notice": signer_is_lawyer_for_claimant
+    datatype: yesno
+  - 'Name of the person signing': signer_name
+---
+progress: 100
+mandatory: True
+id: Placeholder download screen
+question: |
+  Placeholder download screen
+subquestion: |
+  Placeholder
+  
+  ### Next steps
+  
+  1. Step 1
+  2. Step 2
+  
+  Below is a preview of your form.
+  
+  ${ bcscf3nofc_attachment['final'] }
+need: bcscf3nofc
+attachment code: bcscf3nofc_attachment['final']
+---
+objects:
+  - bcscf3nofc_attachment: DADict
+---
+attachment:
+    variable name: bcscf3nofc_attachment[i]
+    name: NoFC
+    filename: NoFC
+    skip undefined: True
+    pdf template file: f3.pdf
+    fields: 
+      - "plaintiff_name": ${ str(plaintiffs[0]) }
+      - "respondent_name": ${ str(respondents[0]) }
+      - "respondent_name__2": ${ str(respondents[0]) }
+      - "plaintiff_name__2": ${ str(plaintiffs[0]) }
+      - "plaintiff_address_block": ${ plaintiffs[0].address.block() }
+      - "plaintiff_email": ${ plaintiffs[0].email }
+      - "signature_date": ${ signature_date }
+      # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
+      - "plaintiff_signature": ${ plaintiffs[0].signature if i == 'final' else '' }
+      - "plaintiff_name__3": ${ str(plaintiffs[0]) }
+      - "court_file_number": ${ court_file_number }
+      - "court_registry": ${ court_registry }
+      - "plaintiff_relationship": ${ plaintiff_relationship }
+      - "respondent_relationship": ${ respondent_relationship }
+      - "plaintiff_and_respondent_did_begin_marriage_like_relationship": ${ plaintiff_and_respondent_did_begin_marriage_like_relationship }
+      - "marriage_like_relationship_start_date": ${ marriage_like_relationship_start_date }
+      - "plaintiff_and_respondent_did_marry": ${ plaintiff_and_respondent_did_marry }
+      - "marriage_date": ${ marriage_date }
+      - "plaintiff_and_respondent_did_separate": ${ plaintiff_and_respondent_did_separate }
+      - "separation_date": ${ separation_date }
+      - "plaintiff_and_respondent_were_divorced": ${ plaintiff_and_respondent_were_divorced }
+      - "divorce_date": ${ divorce_date }
+      - "nothing_prior_does_relate": ${ nothing_prior_does_relate }
+      - "prior_written_agreement_does_relate": ${ prior_written_agreement_does_relate }
+      - "prior_written_agreement_date": ${ prior_written_agreement_date }
+      - "prior_court_order_does_relate": ${ prior_court_order_does_relate }
+      - "prior_court_order_date": ${ prior_court_order_date }
+      - "prior_court_proceeding_does_relate": ${ prior_court_proceeding_does_relate }
+      - "prior_court_proceeding_file_number": ${ prior_court_proceeding_file_number }
+      - "prior_court_proceeding_registry": ${ prior_court_proceeding_registry }
+      - "plaintiff_is_claiming_divorce": ${ plaintiff_is_claiming_divorce }
+      - "plaintiff_is_claiming_order_respecting_children": ${ plaintiff_is_claiming_order_respecting_children }
+      - "plaintiff_is_claiming_spousal_support": ${ plaintiff_is_claiming_spousal_support }
+      - "plaintiff_is_claiming_family_property_and_debt": ${ plaintiff_is_claiming_family_property_and_debt }
+      - "plaintiff_is_claiming_alternative_order": ${ plaintiff_is_claiming_alternative_order }
+      - "plaintiff_is_claiming_order_for_costs": ${ plaintiff_is_claiming_order_for_costs }
+      - "place_of_trial": ${ place_of_trial }
+      - "place_of_trial_registry_address": ${ place_of_trial_registry_address }
+      - "plaintiff_fax": ${ plaintiff_fax }
+      - "signer_is_plaintiff": ${ signer_is_plaintiff }
+      - "signer_is_lawyer_for_claimant": ${ signer_is_lawyer_for_claimant }
+      - "signer_name": ${ signer_name }
+      - "plaintiff_lawyer_name": ${ plaintiff_lawyer_name }
+      - "lawyer_signature_date": ${ lawyer_signature_date }
+      - "plaintiff_lawyer_name__2": ${ plaintiff_lawyer_name }
+      - "plaintiff_lawyer_signature": ${ plaintiff_lawyer_signature }
+---
+id: bcscf3nofc review screen
+event: review_bcscf3nofc
+question: |
+  Placeholder Review Screen
+subquestion: |
+  Edit your answers below
+review: 
+  - Edit: court_file_number
+    button: |
+      Court file number:
+      ${ court_file_number }
+  - Edit: court_registry
+    button: |
+      Court registry:
+      ${ court_registry }
+  - Edit: plaintiff_relationship
+    button: |
+      Brief description of claimant's relationship to other parties to this family law case:
+      ${ plaintiff_relationship }
+  - Edit: respondent_relationship
+    button: |
+      Brief description of respondent's relationship to other parties to this family law case:
+      ${ respondent_relationship }
+  - Edit: plaintiff_and_respondent_did_begin_marriage_like_relationship
+    button: |
+      Plaintiff and respondent lived together in a marriage-like relationship:
+      ${ word(yesno(plaintiff_and_respondent_did_begin_marriage_like_relationship)) }
+  - Edit: marriage_like_relationship_start_date
+    button: |
+      Date the parties' marriage-like relationship began:
+      ${ marriage_like_relationship_start_date.format() }
+  - Edit: plaintiff_and_respondent_did_marry
+    button: |
+      Plaintiff and respondent have been married:
+      ${ word(yesno(plaintiff_and_respondent_did_marry)) }
+  - Edit: marriage_date
+    button: |
+      Date of marriage:
+      ${ marriage_date.format() }
+  - Edit: plaintiff_and_respondent_did_separate
+    button: |
+      Plaintiff and respondent separated:
+      ${ word(yesno(plaintiff_and_respondent_did_separate)) }
+  - Edit: separation_date
+    button: |
+      Date of separation:
+      ${ separation_date.format() }
+  - Edit: plaintiff_and_respondent_were_divorced
+    button: |
+      Plaintiff and respondent were divorced:
+      ${ word(yesno(plaintiff_and_respondent_were_divorced)) }
+  - Edit: divorce_date
+    button: |
+      Date of divorce:
+      ${ divorce_date.format() }
+  - Edit: nothing_prior_does_relate
+    button: |
+      There is no agreement, court order or court proceeding already about anything being claimed in this notice:
+      ${ word(yesno(nothing_prior_does_relate)) }
+  - Edit: prior_written_agreement_does_relate
+    button: |
+      A prior written agreement relates to something being claimed in this notice:
+      ${ word(yesno(prior_written_agreement_does_relate)) }
+  - Edit: prior_written_agreement_date
+    button: |
+      Date of prior written agreement:
+      ${ prior_written_agreement_date.format() }
+  - Edit: prior_court_order_does_relate
+    button: |
+      Prior court order does relate to something being claimed in this notice:
+      ${ word(yesno(prior_court_order_does_relate)) }
+  - Edit: prior_court_order_date
+    button: |
+      Date of prior court order:
+      ${ prior_court_order_date.format() }
+  - Edit: prior_court_proceeding_does_relate
+    button: |
+      Prior court proceeding does relate to something being claimed in this notice:
+      ${ word(yesno(prior_court_proceeding_does_relate)) }
+  - Edit: prior_court_proceeding_file_number
+    button: |
+      Prior court proceeding file number:
+      ${ prior_court_proceeding_file_number }
+  - Edit: prior_court_proceeding_registry
+    button: |
+      Prior court proceeding registry:
+      ${ prior_court_proceeding_registry }
+  - Edit: plaintiff_is_claiming_divorce
+    button: |
+      Plaintiff is claiming divorce:
+      ${ word(yesno(plaintiff_is_claiming_divorce)) }
+  - Edit: plaintiff_is_claiming_order_respecting_children
+    button: |
+      Plaintiff is claiming an order respecting children:
+      ${ word(yesno(plaintiff_is_claiming_order_respecting_children)) }
+  - Edit: plaintiff_is_claiming_spousal_support
+    button: |
+      Plaintiff is claiming spousal support:
+      ${ word(yesno(plaintiff_is_claiming_spousal_support)) }
+  - Edit: plaintiff_is_claiming_family_property_and_debt
+    button: |
+      Plaintiff is claiming family property and debt:
+      ${ word(yesno(plaintiff_is_claiming_family_property_and_debt)) }
+  - Edit: plaintiff_is_claiming_alternative_order
+    button: |
+      Plaintiff is claiming something else:
+      ${ word(yesno(plaintiff_is_claiming_alternative_order)) }
+  - Edit: plaintiff_is_claiming_order_for_costs
+    button: |
+      Plaintiff is claiming an order for legal costs:
+      ${ word(yesno(plaintiff_is_claiming_order_for_costs)) }
+  - Edit: place_of_trial
+    button: |
+      Place the trial will happen:
+      ${ place_of_trial }
+  - Edit: place_of_trial_registry_address
+    button: |
+      The address for the court registry for the trial:
+      ${ place_of_trial_registry_address }
+  - Edit: plaintiff_fax
+    button: |
+      Plaintiff fax number:
+      ${ plaintiff_fax }
+  - Edit: signer_is_plaintiff
+    button: |
+      Plaintiff is signing this notice:
+      ${ word(yesno(signer_is_plaintiff)) }
+  - Edit: signer_is_lawyer_for_claimant
+    button: |
+      Plaintiff's lawyer is signing this notice:
+      ${ word(yesno(signer_is_lawyer_for_claimant)) }
+  - Edit: signer_name
+    button: |
+      Name of the person signing:
+      ${ signer_name }
+  - Edit: plaintiff_lawyer_name
+    button: |
+      Plaintiff's lawyer's name:
+      ${ plaintiff_lawyer_name }
+  - Edit: lawyer_signature_date
+    button: |
+      Date of lawyer signature:
+      ${ lawyer_signature_date.format() }
+  - Edit: plaintiffs[0]
+    button: |
+      plaintiffs[0]:
+      ${ plaintiffs[0] }
+  - Edit: respondents[0]
+    button: |
+      respondents[0]:
+      ${ respondents[0] }
+  - Edit: plaintiffs[0].address.address
+    button: |
+      plaintiffs[0].address.address:
+      ${ plaintiffs[0].address.address }
+  - Edit: plaintiffs[0].email
+    button: |
+      plaintiffs[0].email:
+      ${ plaintiffs[0].email }
+  - Edit: signature_date
+    button: |
+      signature_date:
+      ${ signature_date }
+  - Edit: plaintiffs[0].signature
+    button: |
+      plaintiffs[0].signature:
+      ${ plaintiffs[0].signature }
+  - Edit: plaintiff_lawyer_signature
+    button: |
+      plaintiff_lawyer_signature:
+      ${ plaintiff_lawyer_signature }

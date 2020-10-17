@@ -55,6 +55,20 @@ code: |
   plaintiff_is_claiming_order_for_costs
   plaintiff_is_claiming_alternative_order
 
+  plaintiff_and_respondent_did_begin_marriage_like_relationship
+  plaintiff_and_respondent_did_marry
+  plaintiff_and_respondent_did_separate
+  plaintiff_and_respondent_were_divorced
+
+  if plaintiff_and_respondent_did_begin_marriage_like_relationship:
+    marriage_like_relationship_start_date
+  if plaintiff_and_respondent_did_marry:
+    marriage_date
+  if plaintiff_and_respondent_did_separate:
+    separation_date
+  if plaintiff_and_respondent_were_divorced:
+    divorce_date
+
   prior_written_agreement_does_relate
   prior_court_order_does_relate
   prior_court_proceeding_does_relate
@@ -142,13 +156,13 @@ fields:
 id: written agreement
 question: When did you sign a written agreement about this matter?
 fields:
-  - no label: prior_written_agreement_date
+  - Date of signing: prior_written_agreement_date
     datatype: date
 ---
 id: court order date
 question: When did the court issue an order about this matter?
 fields:
-  - no label: prior_court_order_date
+  - Date of court order: prior_court_order_date
     datatype: date
 ---
 id: prior proceeding
@@ -194,34 +208,34 @@ id: When did your relationship become marriage-like?
 question: |
   When did your relationship with ${ respondent_name } become marriage-like?
 fields:
-  - no label: marriage_like_relationship_start_date
+  - Start date: marriage_like_relationship_start_date
     datatype: date
 ---
 id: When were you married?
 question: |
   When did you and ${ respondent_name } get married?
 fields:
-  - no label: marriage_date
+  - Date of marriage: marriage_date
     datatype: date
 ---
 id: When did you separate?
 question: |
   When did you and ${ respondent_name } separate?
 fields:
-  - no label: separation_date
+  - Date of separation: separation_date
     datatype: date
 ---
 id: When were you divorced?
 question: |
   When were you and ${ respondent_name } divorced?
 fields:
-  - no label: divorce_date
+  - Date of divorce: divorce_date
     datatype: date
 ---
 id: plaintiff has lawyer
 question: Do you have a lawyer?
 fields:
-  - no label: plaintiff_has_lawyer
+  - I do have a lawyer: plaintiff_has_lawyer
     datatype: yesno
 ---
 id: lawyer name

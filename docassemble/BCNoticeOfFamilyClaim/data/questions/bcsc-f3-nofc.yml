@@ -168,11 +168,20 @@ fields:
   - Date of court order: prior_court_order_date
     datatype: date
 ---
-id: prior proceeding
-question: What are the details of the previous court proceeding in this matter?
+id: prior proceeding registry
+question: What was the registry for the court proceeding that already happened?
 fields:
-  - 'Prior court proceeding file number': prior_court_proceeding_file_number
-  - 'Prior court proceeding registry': prior_court_proceeding_registry
+  - Registry: prior_court_proceeding_registry
+    datatype: object
+    choices:
+      - court_registries
+---
+id: prior proceeding file number
+question: What was the file number for the court proceeding that already happened?
+subquestion: |
+  Courts use file numbers to keep track of cases. If there has already been a court process related to the problem you have now, the court would have created a file number for that process at the time that it was happening.
+fields:
+  - File number: prior_court_proceeding_file_number
 ---
 id: your name
 question: What is your name?
@@ -364,7 +373,7 @@ attachment:
       - "prior_court_order_date": ${ prior_court_order_date }
       - "prior_court_proceeding_does_relate": ${ prior_court_proceeding_does_relate }
       - "prior_court_proceeding_file_number": ${ prior_court_proceeding_file_number }
-      - "prior_court_proceeding_registry": ${ prior_court_proceeding_registry }
+      - "prior_court_proceeding_registry": ${ prior_court_proceeding_registry.name }
       - "plaintiff_is_claiming_divorce": ${ plaintiff_is_claiming_divorce }
       - "plaintiff_is_claiming_order_respecting_children": ${ plaintiff_is_claiming_order_respecting_children }
       - "plaintiff_is_claiming_spousal_support": ${ plaintiff_is_claiming_spousal_support }

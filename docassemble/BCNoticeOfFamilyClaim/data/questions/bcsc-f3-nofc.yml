@@ -266,9 +266,16 @@ fields:
 ---
 id: Court file number
 question: |
+  % if prior_court_proceeding_does_relate:
+  Do you have a court file number for this proceeding?
+  % else:
   Do you have a court file number?
+  % endif
 subquestion: |
   The first time you send a form to the court, they will create a number to help keep track of your case, and they will tell you this number. You should put that number on all the forms you send the court afterwards, including this one. If this is the first form you've filed, then you won't have a file number yet, so you can leave this blank.
+  % if prior_court_proceeding_does_relate:
+  You will have a different file number for this court process than you did for the court process that already happened.
+  % endif
 fields:
   - Court file number: court_file_number
     required: False

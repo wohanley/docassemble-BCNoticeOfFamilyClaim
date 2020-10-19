@@ -6,6 +6,9 @@ metadata:
   short title: |
     NoFC
 ---
+objects from file:
+  - court_registries: court_registries.yml
+---
 comment: |
   This section is used by MAVirtualCourts to control how some of the questions work.
 mandatory: True
@@ -270,35 +273,7 @@ fields:
   - Court registry: court_registry
     datatype: object
     choices:
-      - campbell_river_registry
-      - chilliwack_registry
-      - courtenay_registry
-      - cranbrook_registry
-      - dawson_creek_registry
-      - duncan_registry
-      - fort_nelson_registry
-      - fort_st_john_registry
-      - golden_registry
-      - kamloops_registry
-      - kelowna_registry
-      - nanaimo_registry
-      - nelson_registry
-      - new_westminster_registry
-      - penticton_registry
-      - port_alberni_registry
-      - powell_river_registry
-      - prince_george_registry
-      - prince_rupert_registry
-      - quesnel_registry
-      - revelstoke_registry
-      - rossland_registry
-      - salmon_arm_registry
-      - smithers_registry
-      - terrace_registry
-      - vancouver_registry
-      - vernon_registry
-      - victoria_registry
-      - williams_lake_registry
+      - court_registries
 ---
 id: Lawyer certificate
 question: |
@@ -350,37 +325,6 @@ attachment code: bcscf3nofc_attachment['final']
 ---
 objects:
   - bcscf3nofc_attachment: DADict
-  - campbell_river_registry: DAObject.using(name='Campbell River', address='500 - 13th Avenue\nCampbell River, BC\nV9W 6P1')
-  - chilliwack_registry: DAObject.using(name='Chilliwack', address='46085 Yale Road\nChilliwack, BC\nV2P 2L8')
-  - courtenay_registry: DAObject.using(name='Courtenay', address='Room 100\n420 Cumberland Road\nCourtenay, BC\nV9N 2C4')
-  - cranbrook_registry: DAObject.using(name='Cranbrook', address='Room 147\n102 - 11th Avenue South\nCranbrook, BC\nV1C 2P3')
-  - dawson_creek_registry: DAObject.using(name='Dawson Creek', address='1201 - 103rd Avenue\nDawson Creek, BCV1G 4J2')
-  - duncan_registry: DAObject.using(name='Duncan', address='238 Government Street\nDuncan, BCV9L 1A5')
-  - fort_nelson_registry: DAObject.using(name='Fort Nelson', address='Bag 1000\n4604 Sunset Drive\nFort Nelson, BCV0C 1R0 ')
-  - fort_st_john_registry: DAObject.using(name='Fort St. John', address='10600 -100 StreetFort St. John, BCV1J 4L6 ')
-  - golden_registry: DAObject.using(name='Golden', address='837 Park DriveGolden, BC V0A 1H0')
-  - kamloops_registry: DAObject.using(name='Kamloops', address='223 -455 Columbia StreetKamloops, BCV2C 6K4 ')
-  - kelowna_registry: DAObject.using(name='Kelowna', address='1355 Water StreetKelowna, BCV1Y 9R3 ')
-  - nanaimo_registry: DAObject.using(name='Nanaimo', address='35 Front StreetNanaimo, BCV9R 5J1 ')
-  - nelson_registry: DAObject.using(name='Nelson', address='320 Ward StreetNelson, BCV1L 1S6 ')
-  - new_westminster_registry: DAObject.using(name='New Westminster', address='Begbie Square651 Carnarvon StreetNew Westminster, BCV3M 1C9 ')
-  - penticton_registry: DAObject.using(name='Penticton', address='100 Main StreetPenticton, BCV2A 5A5')
-  - port_alberni_registry: DAObject.using(name='Port Alberni', address='2999 -4th AvenuePort Alberni, BCV9Y 8A5')
-  - powell_river_registry: DAObject.using(name='Powell River', address='103 -6953 Alberni StreetPowell River, BCV8A 2B8')
-  - prince_george_registry: DAObject.using(name='Prince George', address='J.O.Wilson Square250 George StreetPrince George, BCV2L 5S2')
-  - prince_rupert_registry: DAObject.using(name='Prince Rupert', address='100 Market PlacePrince Rupert, BCV8J 1B8 ')
-  - quesnel_registry: DAObject.using(name='Quesnel', address='305 -350 Barlow AvenueQuesnel, BCV2J 2C1')
-  # Revelstoke registry says to contact Salmon Arm Courthouse for filing. Should that be reflected here?
-  - revelstoke_registry: DAObject.using(name='Revelstoke', address='1123 West 2nd StreetRevelstoke, BCV0E 2SO')
-  - rossland_registry: DAObject.using(name='Rossland', address='P.O. Box 639  2288 Columbia Avenue Rossland, BC  V0G 1Y0 ')
-  - salmon_arm_registry: DAObject.using(name='Salmon Arm', address='550 -2nd Avenue NEPO Box 100, Station MainSalmon Arm, BCV1E 4S4')
-  - smithers_registry: DAObject.using(name='Smithers', address='No. 40, Bag 50003793 Alfred AvenueSmithers, BCV0J 2N0')
-  - terrace_registry: DAObject.using(name='Terrace', address='3408 Kalum StreetTerrace, BCV8G 2N6 ')
-  - vancouver_registry: DAObject.using(name='Vancouver', address='800 Smithe StreetVancouver, BCV6Z 2E1')
-  - vernon_registry: DAObject.using(name='Vernon', address='3001 -27th StreetVernon, BCV1T 4W5 ')
-  # The Victoria registry lists a separate address for mailing. Which would be correct here?
-  - victoria_registry: DAObject.using(name='Victoria', address='PO Box 9248 Stn Prov Govt Victoria, BC V8W 9J2 ')
-  - williams_lake_registry: DAObject.using(name='Williams Lake', address='540 Borland StreetWilliams Lake, BCV2G lR8')
 ---
 attachment:
     variable name: bcscf3nofc_attachment[i]

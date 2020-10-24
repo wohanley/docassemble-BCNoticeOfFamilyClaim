@@ -94,6 +94,8 @@ code: |
   str(plaintiffs[0])
   str(respondents[0])
   plaintiffs[0].address.block()
+  plaintiff_email
+  plaintiff_fax
   signature_date
 
   bcscf3nofc_preview_question # Pre-canned preview screen
@@ -250,14 +252,23 @@ question: What is your lawyer's name?
 fields:
   - "Lawyer's name": plaintiff_lawyer_name
 ---
-id: Personal information
+id: plaintiff email
 question: |
-  Personal information
+  Would you like the court to be able to contact you through email?
 subquestion: |
-  Information about you and the other people involved in this case.
+  If you have an email address you would like to be contacted at, enter it here. If you don't have an email address, you don't need to enter anything.
 fields:
-  - 'Plaintiff fax number': plaintiff_fax
-  - "Plaintiff's lawyer's name": plaintiff_lawyer_name
+  - Email address: plaintiff_email
+    required: False
+---
+id: plaintiff fax
+question: |
+  Would you like the court to be able to contact you through fax?
+subquestion: |
+  If you have a fax number you would like to be reached at, enter it here. If you don't have a fax number, you don't need to enter anything.
+fields:
+  - Fax number: plaintiff_fax
+    required: False
 ---
 id: Court file number
 question: |

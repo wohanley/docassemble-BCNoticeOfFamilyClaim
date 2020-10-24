@@ -99,12 +99,7 @@ code: |
   bcscf3nofc_preview_question # Pre-canned preview screen
 
   basic_questions_signature_flow
-  if plaintiff_has_lawyer:
-    signer_identity
-  if signer_identity == 'Me':
-    plaintiffs[0].signature
-  if signer_identity == 'My lawyer':
-    plaintiff_lawyer.signature
+  plaintiffs[0].signature
 
   bcscf3nofc = True
 ---
@@ -300,25 +295,7 @@ fields:
   - 'Date of lawyer signature': lawyer_signature_date
     datatype: date
   - "Plaintiff's lawyer's name": plaintiff_lawyer_name
----
-id: signer identity
-question: Who is going to sign this form?
-field: signer_identity
-choices:
-  - Me
-  - My lawyer
----
-id: Signatures
-question: |
-  Signatures
-subquestion: |
-  Sign the form.
-fields:
-  - 'Plaintiff is signing this notice': signer_is_plaintiff
-    datatype: yesno
-  - "Plaintiff's lawyer is signing this notice": signer_is_lawyer_for_claimant
-    datatype: yesno
-  - 'Name of the person signing': signer_name
+  - "Lawyer's name": plaintiff_lawyer_name
 ---
 progress: 100
 mandatory: True
@@ -388,13 +365,11 @@ attachment:
       - "plaintiff_is_claiming_alternative_order": ${ plaintiff_is_claiming_alternative_order }
       - "plaintiff_is_claiming_order_for_costs": ${ plaintiff_is_claiming_order_for_costs }
       - "plaintiff_fax": ${ plaintiff_fax }
-      - "signer_is_plaintiff": ${ signer_is_plaintiff }
-      - "signer_is_lawyer_for_claimant": ${ signer_is_lawyer_for_claimant }
-      - "signer_name": ${ signer_name }
       - "plaintiff_lawyer_name": ${ plaintiff_lawyer_name }
       - "lawyer_signature_date": ${ lawyer_signature_date }
       - "plaintiff_lawyer_name__2": ${ plaintiff_lawyer_name }
       - "plaintiff_lawyer_signature": ${ plaintiff_lawyer_signature }
+      - "signer_name": ${ plaintiffs[0].name }
 ---
 id: bcscf3nofc review screen
 event: review_bcscf3nofc
@@ -511,18 +486,6 @@ review:
     button: |
       Plaintiff fax number:
       ${ plaintiff_fax }
-  - Edit: signer_is_plaintiff
-    button: |
-      Plaintiff is signing this notice:
-      ${ word(yesno(signer_is_plaintiff)) }
-  - Edit: signer_is_lawyer_for_claimant
-    button: |
-      Plaintiff's lawyer is signing this notice:
-      ${ word(yesno(signer_is_lawyer_for_claimant)) }
-  - Edit: signer_name
-    button: |
-      Name of the person signing:
-      ${ signer_name }
   - Edit: plaintiff_lawyer_name
     button: |
       Plaintiff's lawyer's name:

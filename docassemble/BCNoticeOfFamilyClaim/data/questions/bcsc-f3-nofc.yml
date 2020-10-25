@@ -40,9 +40,21 @@ features:
 sections:
   - review_bcscf3nofc: Review your answers
 ---
+objects:
+  - accumulated_template: DAFile
+  - f3_base: DAStaticFile
+  - f3_lawyer_certificate: DAStaticFile
+---
 id: interview_order_bcscf3nofc
 code: |
-  # This is a placeholder to control logic flow in this interview
+  # Initialize template files
+
+  f3_base.filename = 'data/templates/f3-base.pdf'
+  f3_lawyer_certificate.filename = 'data/templates/f3-lawyer-certificate.pdf'
+
+  accumulated_template = f3_base
+
+  # Begin interview flow
 
   basic_questions_intro_screen 
   bcscf3nofc_intro
@@ -87,16 +99,16 @@ code: |
   court_file_number
   court_registry
 
-  plaintiff_has_lawyer
-  if plaintiff_has_lawyer:
-    plaintiff_lawyer
-
   str(plaintiffs[0])
   str(respondents[0])
   plaintiffs[0].address.block()
   plaintiff_email
   plaintiff_fax
   signature_date
+
+  plaintiff_has_lawyer # We need to know this so we can include the certificate if necessary
+  if plaintiff_has_lawyer:
+    accumulated_template = pdf_concatenate(accumulated_template, f3_lawyer_certificate)
 
   bcscf3nofc_preview_question # Pre-canned preview screen
 
@@ -243,9 +255,12 @@ fields:
 ---
 id: plaintiff has lawyer
 question: Do you have a lawyer?
-fields:
-  - I do have a lawyer: plaintiff_has_lawyer
-    datatype: yesno
+subquestion: |
+  If you have a lawyer **and** you are making a claim under the Family Law Act, your lawyer will need to sign a certificate. This is to make sure that your lawyer has discussed all your options with you, and that filing this form is the right choice for you. If you do have a lawyer but you aren't sure whether your claim is under the Family Law Act, ask your lawyer.
+field: plaintiff_has_lawyer
+buttons:
+  - I do have a lawyer: True
+  - I do not have a lawyer: False
 ---
 id: lawyer name
 question: What is your lawyer's name?
@@ -297,30 +312,22 @@ fields:
     choices:
       - court_registries
 ---
-id: Lawyer certificate
-question: |
-  Lawyer certificate
-subquestion: |
-  If you are making a claim under the under the Family Law Act and you have a lawyer, the lawyer must complete a certificate.
-fields:
-  - 'Date of lawyer signature': lawyer_signature_date
-    datatype: date
-  - "Plaintiff's lawyer's name": plaintiff_lawyer_name
-  - "Lawyer's name": plaintiff_lawyer_name
----
 progress: 100
 mandatory: True
 id: Placeholder download screen
 question: |
-  Placeholder download screen
+  Download
 subquestion: |
-  Placeholder
-  
   ### Next steps
-  
-  1. Step 1
-  2. Step 2
-  
+
+  % if plaintiff_has_lawyer:
+  * Have your lawyer complete the Lawyer's Certificate (the last page of the form).
+  % endif
+  * File your completed form with the court. You can either mail the form or file it online.
+    * Option 1: Print the form and mail it to the court registry. The address for the ${ court_registry.name } registry is:
+      ${ court_registry.address }
+    * Option 2: File the form online through [Court Services Online](https://justice.gov.bc.ca/cso/index.do). You will need to register for an account with Court Services Online and an account with BCeID. You can register for these accounts online, for free.
+
   Below is a preview of your form.
   
   ${ bcscf3nofc_attachment['final'] }
@@ -335,7 +342,8 @@ attachment:
     name: NoFC
     filename: NoFC
     skip undefined: True
-    pdf template file: f3.pdf
+    pdf template file:
+      code: accumulated_template
     fields: 
       - "plaintiff_name": ${ str(plaintiffs[0]) }
       - "respondent_name": ${ str(respondents[0]) }
@@ -376,10 +384,6 @@ attachment:
       - "plaintiff_is_claiming_alternative_order": ${ plaintiff_is_claiming_alternative_order }
       - "plaintiff_is_claiming_order_for_costs": ${ plaintiff_is_claiming_order_for_costs }
       - "plaintiff_fax": ${ plaintiff_fax }
-      - "plaintiff_lawyer_name": ${ plaintiff_lawyer_name }
-      - "lawyer_signature_date": ${ lawyer_signature_date }
-      - "plaintiff_lawyer_name__2": ${ plaintiff_lawyer_name }
-      - "plaintiff_lawyer_signature": ${ plaintiff_lawyer_signature }
       - "signer_name": ${ plaintiffs[0].name }
 ---
 id: bcscf3nofc review screen
@@ -501,10 +505,6 @@ review:
     button: |
       Plaintiff's lawyer's name:
       ${ plaintiff_lawyer_name }
-  - Edit: lawyer_signature_date
-    button: |
-      Date of lawyer signature:
-      ${ lawyer_signature_date.format() }
   - Edit: plaintiffs[0]
     button: |
       plaintiffs[0]:

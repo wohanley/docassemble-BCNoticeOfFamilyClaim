@@ -529,7 +529,3 @@ review:
     button: |
       plaintiffs[0].signature:
       ${ plaintiffs[0].signature }
-  - Edit: plaintiff_lawyer_signature
-    button: |
-      plaintiff_lawyer_signature:
-      ${ plaintiff_lawyer_signature }

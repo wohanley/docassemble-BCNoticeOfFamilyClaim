@@ -136,7 +136,7 @@ question: |
 subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
-   ${bcscf3nofc_attachment['preview']}
+   ${ bcscf3nofc_attachment['preview'] }
 ---
 id: Claims
 question: |
@@ -195,31 +195,21 @@ subquestion: |
 fields:
   - File number: prior_court_proceeding_file_number
 ---
-id: your name
-question: What is your name?
-fields:
-  - Your name: plaintiff_name
----
-id: respondent name
-question: What is the respondent's name?
-fields:
-  - "Respondent's name": respondent_name
----
 id: plaintiff relationship
-question: In a few words, describe your relationship to ${ respondent_name }.
+question: In a few words, describe your relationship to ${ str(respondents[0]) }.
 fields:
   - "I am: ": plaintiff_relationship
-    hint: "for example: separated from ${ respondent_name }"
+    hint: "for example: separated from ${ str(respondents[0]) }"
 ---
 id: respondent relationship
-question: "In a few words, describe ${ respondent_name }'s relationship to you."
+question: "In a few words, describe ${ str(respondents[0]) }'s relationship to ${ str(plaintiffs[0]) }."
 fields:
-  - "${ respondent_name } is": respondent_relationship
-    hint: "for example: married to ${ plaintiff_name }"
+  - "${ str(respondents[0]) } is": respondent_relationship
+    hint: "for example: married to ${ str(plaintiffs[0]) }"
 ---
 id: Relationship milestones
 question: |
-  What has happened in your relationship with ${ respondent_name } so far?
+  What has happened in your relationship with ${ str(respondents[0]) } so far?
 fields:
   - 'Our relationship became marriage-like.': plaintiff_and_respondent_did_begin_marriage_like_relationship
     datatype: yesno
@@ -232,28 +222,28 @@ fields:
 ---
 id: When did your relationship become marriage-like?
 question: |
-  When did your relationship with ${ respondent_name } become marriage-like?
+  When did your relationship with ${ str(respondents[0]) } become marriage-like?
 fields:
   - Start date: marriage_like_relationship_start_date
     datatype: date
 ---
 id: When were you married?
 question: |
-  When did you and ${ respondent_name } get married?
+  When did you and ${ str(respondents[0]) } get married?
 fields:
   - Date of marriage: marriage_date
     datatype: date
 ---
 id: When did you separate?
 question: |
-  When did you and ${ respondent_name } separate?
+  When did you and ${ str(respondents[0]) } separate?
 fields:
   - Date of separation: separation_date
     datatype: date
 ---
 id: When were you divorced?
 question: |
-  When were you and ${ respondent_name } divorced?
+  When were you and ${ str(respondents[0]) } divorced?
 fields:
   - Date of divorce: divorce_date
     datatype: date

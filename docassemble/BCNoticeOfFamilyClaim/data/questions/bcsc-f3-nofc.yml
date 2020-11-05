@@ -63,6 +63,10 @@ code: |
   nav.set_section('review_bcscf3nofc')
   user_role = 'plaintiff'
 
+  str(respondents[0])
+  plaintiff_relationship
+  respondent_relationship
+
   plaintiff_is_claiming_divorce
   plaintiff_is_claiming_order_respecting_children
   plaintiff_is_claiming_spousal_support
@@ -100,7 +104,6 @@ code: |
   court_registry
 
   str(plaintiffs[0])
-  str(respondents[0])
   plaintiffs[0].address.block()
   plaintiff_email
   plaintiff_fax
@@ -203,14 +206,16 @@ fields:
   - "Respondent's name": respondent_name
 ---
 id: plaintiff relationship
-question: What is your relationship to ${ respondent_name }?
+question: In a few words, describe your relationship to ${ respondent_name }.
 fields:
-  - "Your relationship to ${ respondent_name }": plaintiff_relationship
+  - "I am: ": plaintiff_relationship
+    hint: "for example: separated from ${ respondent_name }"
 ---
 id: respondent relationship
-question: "What is ${ respondent_name }'s relationship to you?"
+question: "In a few words, describe ${ respondent_name }'s relationship to you."
 fields:
-  - "${ respondent_name }'s relationship to you": respondent_relationship
+  - "${ respondent_name } is": respondent_relationship
+    hint: "for example: married to ${ plaintiff_name }"
 ---
 id: Relationship milestones
 question: |

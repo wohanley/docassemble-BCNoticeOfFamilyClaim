@@ -17,9 +17,9 @@ code: |
   if not defined("interview_metadata['bcscf3nofc']"):
     interview_metadata.initializeObject('bcscf3nofc')
   interview_metadata['bcscf3nofc'].update({
-    'title': 'Notice of Family Claim',
+    'title': 'Notice of Family Claim for spousal support',
     'short title': 'NoFC',
-    'description': 'For starting a family law case in BC Supreme Court.',
+    'description': 'This interview will help you fill out the forms you need to get the court to tell your spouse to pay you spousal support.',
     'original_form': 'https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/supreme-family/f3.pdf',
     'allowed courts': [
     ],
@@ -127,14 +127,12 @@ code: |
 
   bcscf3nofc = True
 ---
-comment: |
-  This question is used to introduce your interview. Please customize
 id: Notice of Family Claim
 continue button field: bcscf3nofc_intro
 question: |
-  Notice of Family Claim
+  Notice of Family Claim for spousal support
 subquestion: |
-  For starting a family law case in BC Supreme Court.
+  This app will help you fill out the forms you need to get the court to tell your spouse to pay you spousal support. The court calls this Form F3, or Notice of Family Claim.
 ---
 id: Placeholder preview screen
 continue button field: bcscf3nofc_preview_question

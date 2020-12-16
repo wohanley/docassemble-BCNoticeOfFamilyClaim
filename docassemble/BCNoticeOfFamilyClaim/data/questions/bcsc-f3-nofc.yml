@@ -43,6 +43,7 @@ sections:
 objects:
   - accumulated_template: DAFile
   - f3_base: DAStaticFile
+  - f3_sched_3: DAStaticFile
   - f3_lawyer_certificate: DAStaticFile
 ---
 id: interview_order_bcscf3nofc
@@ -50,9 +51,10 @@ code: |
   # Initialize template files
 
   f3_base.filename = 'data/templates/f3-base.pdf'
+  f3_sched_3.filename = 'data/templates/f3-sched-3.pdf'
   f3_lawyer_certificate.filename = 'data/templates/f3-lawyer-certificate.pdf'
 
-  accumulated_template = f3_base
+  accumulated_template = pdf_concatenate(f3_base, f3_sched_3)
 
   # Begin interview flow
 
@@ -66,13 +68,6 @@ code: |
   str(respondents[0])
   plaintiff_relationship
   respondent_relationship
-
-  plaintiff_is_claiming_divorce
-  plaintiff_is_claiming_order_respecting_children
-  plaintiff_is_claiming_spousal_support
-  plaintiff_is_claiming_family_property_and_debt
-  plaintiff_is_claiming_order_for_costs
-  plaintiff_is_claiming_alternative_order
 
   plaintiff_and_respondent_did_begin_marriage_like_relationship
   plaintiff_and_respondent_did_marry
@@ -88,18 +83,17 @@ code: |
   if plaintiff_and_respondent_were_divorced:
     divorce_date
 
-  if plaintiff_is_claiming_spousal_support:
-    spousal_support_current
-    claimant_seeks_divorce_act_order
-    claimant_seeks_family_law_act_order
-    claimant_proposes_support
-    if claimant_proposes_support:
-      spousal_support_proposed
-    claimant_income_annual_gross
-    claimant_knows_spouse_income
-    if claimant_knows_spouse_income:
-      spouse_income_annual_gross
-      spouse_income_facts
+  spousal_support_current
+  claimant_seeks_divorce_act_order
+  claimant_seeks_family_law_act_order
+  claimant_proposes_support
+  if claimant_proposes_support:
+    spousal_support_proposed
+  claimant_income_annual_gross
+  claimant_knows_spouse_income
+  if claimant_knows_spouse_income:
+    spouse_income_annual_gross
+    spouse_income_facts
 
   prior_written_agreement_does_relate
   prior_court_order_does_relate
@@ -150,23 +144,6 @@ subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
    ${ bcscf3nofc_attachment['preview'] }
----
-id: Claims
-question: |
-  What do you need the court to do?
-fields:
-  - 'I need an order for divorce.': plaintiff_is_claiming_divorce
-    datatype: yesno
-  - 'I need an order respecting children.': plaintiff_is_claiming_order_respecting_children
-    datatype: yesno
-  - 'I need an order for spousal support.': plaintiff_is_claiming_spousal_support
-    datatype: yesno
-  - 'I need an order relating to family property and family debt.': plaintiff_is_claiming_family_property_and_debt
-    datatype: yesno
-  - 'I need an order for legal costs.': plaintiff_is_claiming_order_for_costs
-    datatype: yesno
-  - 'I need another kind of order.': plaintiff_is_claiming_alternative_order
-    datatype: yesno
 ---
 id: Case history
 question: |
@@ -445,12 +422,12 @@ attachment:
       - "prior_court_proceeding_does_relate": ${ prior_court_proceeding_does_relate }
       - "prior_court_proceeding_file_number": ${ prior_court_proceeding_file_number }
       - "prior_court_proceeding_registry": ${ prior_court_proceeding_registry.name }
-      - "plaintiff_is_claiming_divorce": ${ plaintiff_is_claiming_divorce }
-      - "plaintiff_is_claiming_order_respecting_children": ${ plaintiff_is_claiming_order_respecting_children }
-      - "plaintiff_is_claiming_spousal_support": ${ plaintiff_is_claiming_spousal_support }
-      - "plaintiff_is_claiming_family_property_and_debt": ${ plaintiff_is_claiming_family_property_and_debt }
-      - "plaintiff_is_claiming_alternative_order": ${ plaintiff_is_claiming_alternative_order }
-      - "plaintiff_is_claiming_order_for_costs": ${ plaintiff_is_claiming_order_for_costs }
+      - "plaintiff_is_claiming_divorce": ${ False }
+      - "plaintiff_is_claiming_order_respecting_children": ${ False }
+      - "plaintiff_is_claiming_spousal_support": ${ True }
+      - "plaintiff_is_claiming_family_property_and_debt": ${ False }
+      - "plaintiff_is_claiming_alternative_order": ${ False }
+      - "plaintiff_is_claiming_order_for_costs": ${ False }
       - "spousal_support_current": ${ spousal_support_current }
       - "claimant_proposes_support": ${ claimant_proposes_support }
       - "spousal_support_proposed": ${ spousal_support_proposed }
@@ -552,30 +529,6 @@ review:
     button: |
       Prior court proceeding registry:
       ${ prior_court_proceeding_registry }
-  - Edit: plaintiff_is_claiming_divorce
-    button: |
-      Plaintiff is claiming divorce:
-      ${ word(yesno(plaintiff_is_claiming_divorce)) }
-  - Edit: plaintiff_is_claiming_order_respecting_children
-    button: |
-      Plaintiff is claiming an order respecting children:
-      ${ word(yesno(plaintiff_is_claiming_order_respecting_children)) }
-  - Edit: plaintiff_is_claiming_spousal_support
-    button: |
-      Plaintiff is claiming spousal support:
-      ${ word(yesno(plaintiff_is_claiming_spousal_support)) }
-  - Edit: plaintiff_is_claiming_family_property_and_debt
-    button: |
-      Plaintiff is claiming family property and debt:
-      ${ word(yesno(plaintiff_is_claiming_family_property_and_debt)) }
-  - Edit: plaintiff_is_claiming_alternative_order
-    button: |
-      Plaintiff is claiming something else:
-      ${ word(yesno(plaintiff_is_claiming_alternative_order)) }
-  - Edit: plaintiff_is_claiming_order_for_costs
-    button: |
-      Plaintiff is claiming an order for legal costs:
-      ${ word(yesno(plaintiff_is_claiming_order_for_costs)) }
   - Edit: spousal_support_current
     button: |
       Current spousal support:

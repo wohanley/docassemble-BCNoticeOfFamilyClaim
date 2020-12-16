@@ -52,7 +52,6 @@ code: |
 
   f3_base.filename = 'data/templates/f3-base.pdf'
   f3_sched_3.filename = 'data/templates/f3-sched-3.pdf'
-  f3_lawyer_certificate.filename = 'data/templates/f3-lawyer-certificate.pdf'
 
   accumulated_template = pdf_concatenate(f3_base, f3_sched_3)
 
@@ -64,6 +63,12 @@ code: |
   allowed_courts = interview_metadata["bcscf3nofc"]["allowed courts"]
   nav.set_section('review_bcscf3nofc')
   user_role = 'plaintiff'
+
+  # If the claimant has a lawyer, the lawyer needs to fill out certificates if certain claims are
+  # being made. This is not something that this app deals with - it should be left to the lawyer.
+  plaintiff_has_lawyer
+  if plaintiff_has_lawyer:
+    plaintiff_understands_lawyer_specific_needs
 
   str(respondents[0])
   plaintiff_relationship
@@ -115,10 +120,6 @@ code: |
   plaintiff_email
   plaintiff_fax
   signature_date
-
-  plaintiff_has_lawyer # We need to know this so we can include the certificate if necessary
-  if plaintiff_has_lawyer:
-    accumulated_template = pdf_concatenate(accumulated_template, f3_lawyer_certificate)
 
   bcscf3nofc_preview_question # Pre-canned preview screen
 
@@ -304,6 +305,14 @@ field: plaintiff_has_lawyer
 buttons:
   - I do have a lawyer: True
   - I do not have a lawyer: False
+---
+question: This app is not suitable for people who have lawyers.
+subquestion: |
+  If you have a lawyer, the forms you need have more sections, and this app can't fill out those extra sections for you. You should not use this app. Instead, ask your lawyer to help you fill out the forms.
+field: plaintiff_understands_lawyer_specific_needs
+buttons:
+  - Exit: leave
+  - Start over: restart
 ---
 id: lawyer name
 question: What is your lawyer's name?

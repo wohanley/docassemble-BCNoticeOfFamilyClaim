@@ -248,6 +248,35 @@ fields:
   - Date of divorce: divorce_date
     datatype: date
 ---
+id: spousal support
+question: |
+  Spousal support
+fields:
+  - 'Spousal support current': spousal_support_current
+    maxlength: 539
+  - 'Claimant proposes support': claimant_proposes_support
+    datatype: yesno
+  - 'Spousal support proposed': spousal_support_proposed
+    maxlength: 539
+  - 'Claimant seeks statutory order': claimant_seeks_statutory_order
+    datatype: yesno
+  - 'Claimant seeks divorce act order': claimant_seeks_divorce_act_order
+    datatype: yesno
+  - 'Claimant seeks family law act order': claimant_seeks_family_law_act_order
+    datatype: yesno
+  - 'Claimant income annual gross': claimant_income_annual_gross
+    datatype: currency
+    min: 0
+  - 'Claimant does not know spouse income': claimant_does_not_know_spouse_income
+    datatype: yesno
+  - 'Spouse income annual': spouse_income_annual
+    datatype: currency
+    min: 0
+  - 'Claimant knows spouse income': claimant_knows_spouse_income
+    datatype: yesno
+  - 'Spouse income facts': spouse_income_facts
+    maxlength: 539
+---
 id: plaintiff has lawyer
 question: Do you have a lawyer?
 subquestion: |
@@ -378,6 +407,17 @@ attachment:
       - "plaintiff_is_claiming_family_property_and_debt": ${ plaintiff_is_claiming_family_property_and_debt }
       - "plaintiff_is_claiming_alternative_order": ${ plaintiff_is_claiming_alternative_order }
       - "plaintiff_is_claiming_order_for_costs": ${ plaintiff_is_claiming_order_for_costs }
+      - "spousal_support_current": ${ spousal_support_current }
+      - "claimant_proposes_support": ${ claimant_proposes_support }
+      - "spousal_support_proposed": ${ spousal_support_proposed }
+      - "claimant_seeks_statutory_order": ${ claimant_seeks_statutory_order }
+      - "claimant_seeks_divorce_act_order": ${ claimant_seeks_divorce_act_order }
+      - "claimant_seeks_family_law_act_order": ${ claimant_seeks_family_law_act_order }
+      - "claimant_income_annual_gross": ${ currency(claimant_income_annual_gross ) }
+      - "claimant_does_not_know_spouse_income": ${ claimant_does_not_know_spouse_income }
+      - "spouse_income_annual": ${ currency(spouse_income_annual ) }
+      - "claimant_knows_spouse_income": ${ claimant_knows_spouse_income }
+      - "spouse_income_facts": ${ spouse_income_facts }
       - "plaintiff_fax": ${ plaintiff_fax }
       - "signer_name": ${ plaintiffs[0].name }
 ---
@@ -492,6 +532,50 @@ review:
     button: |
       Plaintiff is claiming an order for legal costs:
       ${ word(yesno(plaintiff_is_claiming_order_for_costs)) }
+    - Edit: spousal_support_current
+    button: |
+      Spousal support current:
+      ${ spousal_support_current }
+  - Edit: claimant_proposes_support
+    button: |
+      Claimant proposes support:
+      ${ word(yesno(claimant_proposes_support)) }
+  - Edit: spousal_support_proposed
+    button: |
+      Spousal support proposed:
+      ${ spousal_support_proposed }
+  - Edit: claimant_seeks_statutory_order
+    button: |
+      Claimant seeks statutory order:
+      ${ word(yesno(claimant_seeks_statutory_order)) }
+  - Edit: claimant_seeks_divorce_act_order
+    button: |
+      Claimant seeks divorce act order:
+      ${ word(yesno(claimant_seeks_divorce_act_order)) }
+  - Edit: claimant_seeks_family_law_act_order
+    button: |
+      Claimant seeks family law act order:
+      ${ word(yesno(claimant_seeks_family_law_act_order)) }
+  - Edit: claimant_income_annual_gross
+    button: |
+      Claimant income annual gross:
+      ${ currency(claimant_income_annual_gross) }
+  - Edit: claimant_does_not_know_spouse_income
+    button: |
+      Claimant does not know spouse income:
+      ${ word(yesno(claimant_does_not_know_spouse_income)) }
+  - Edit: spouse_income_annual
+    button: |
+      Spouse income annual:
+      ${ currency(spouse_income_annual) }
+  - Edit: claimant_knows_spouse_income
+    button: |
+      Claimant knows spouse income:
+      ${ word(yesno(claimant_knows_spouse_income)) }
+  - Edit: spouse_income_facts
+    button: |
+      Spouse income facts:
+      ${ spouse_income_facts }
   - Edit: plaintiff_fax
     button: |
       Plaintiff fax number:

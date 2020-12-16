@@ -248,34 +248,72 @@ fields:
   - Date of divorce: divorce_date
     datatype: date
 ---
+id: spousal support current
+question: |
+  How does your spousal support work right now?
+subquestion: |
+  Describe how your spousal support works right now. How much are you paid? How often are you paid?
+fields:
+  - 'My current spousal support arrangements are: ': spousal_support_current
+    maxlength: 539
+---
+id: spousal support order options
+question: |
+  What kind of support do you want the court to order?
+subquestion: |
+  The Divorce Act and the Family Law Act are two laws that both say how support should work. You can ask for the support that one or both of those laws say you should get, or you can make your own suggestion.
+fields:
+  - 'I want the support described in the Divorce Act.': claimant_seeks_divorce_act_order
+    datatype: yesno
+  - 'I want the support described in the Family Law Act.': claimant_seeks_family_law_act_order
+    datatype: yesno
+  - 'I want to ask for different support arrangements.': claimant_proposes_support
+    datatype: yesno
+---
+id: spousal support proposed
+question: |
+  How should your spousal support work?
+subquestion: |
+  Describe how you would like your spousal support to work. How much should you be paid? How often should you be paid? How long should should you keep receiving payments?
+fields:
+  - 'My spousal support should work like this: ': spousal_support_proposed
+    maxlength: 539
+---
+id: plaintiff income
+question: |
+  What is your gross annual income?
+subquestion: |
+  "Gross annual income" is the total amount of money you make in a year before you pay taxes.
+fields:
+  - 'My gross annual income is: ': claimant_income_annual_gross
+    datatype: currency
+    min: 0
+---
+id: spouse income known
+question: |
+  Do you know your spouse's gross annual income?
+fields:
+  - "I do know": claimant_knows_spouse_income
+    datatype: yesno
+---
+id: spouse income
+question: |
+  What is your spouse's gross annual income?
+subquestion: |
+  You'll need to explain how you know your spouse's income, or at least why you believe it to be a certain amount. For example, you might have filed your taxes together, or you might be able to look up the average pay for someone with the same job as your spouse.
+fields:
+  - "My spouse's gross annual income is: ": spouse_income_annual_gross
+    datatype: currency
+    min: 0
+  - "I believe this is my spouse's gross annual income because of these facts: ": spouse_income_facts
+    maxlength: 539
+---
 id: spousal support
 question: |
   Spousal support
 fields:
-  - 'Spousal support current': spousal_support_current
-    maxlength: 539
-  - 'Claimant proposes support': claimant_proposes_support
-    datatype: yesno
-  - 'Spousal support proposed': spousal_support_proposed
-    maxlength: 539
   - 'Claimant seeks statutory order': claimant_seeks_statutory_order
     datatype: yesno
-  - 'Claimant seeks divorce act order': claimant_seeks_divorce_act_order
-    datatype: yesno
-  - 'Claimant seeks family law act order': claimant_seeks_family_law_act_order
-    datatype: yesno
-  - 'Claimant income annual gross': claimant_income_annual_gross
-    datatype: currency
-    min: 0
-  - 'Claimant does not know spouse income': claimant_does_not_know_spouse_income
-    datatype: yesno
-  - 'Spouse income annual': spouse_income_annual
-    datatype: currency
-    min: 0
-  - 'Claimant knows spouse income': claimant_knows_spouse_income
-    datatype: yesno
-  - 'Spouse income facts': spouse_income_facts
-    maxlength: 539
 ---
 id: plaintiff has lawyer
 question: Do you have a lawyer?
@@ -414,9 +452,9 @@ attachment:
       - "claimant_seeks_divorce_act_order": ${ claimant_seeks_divorce_act_order }
       - "claimant_seeks_family_law_act_order": ${ claimant_seeks_family_law_act_order }
       - "claimant_income_annual_gross": ${ currency(claimant_income_annual_gross ) }
-      - "claimant_does_not_know_spouse_income": ${ claimant_does_not_know_spouse_income }
       - "spouse_income_annual": ${ currency(spouse_income_annual ) }
       - "claimant_knows_spouse_income": ${ claimant_knows_spouse_income }
+      - "claimant_does_not_know_spouse_income": ${ !claimant_knows_spouse_income }
       - "spouse_income_facts": ${ spouse_income_facts }
       - "plaintiff_fax": ${ plaintiff_fax }
       - "signer_name": ${ plaintiffs[0].name }
@@ -560,10 +598,6 @@ review:
     button: |
       Claimant income annual gross:
       ${ currency(claimant_income_annual_gross) }
-  - Edit: claimant_does_not_know_spouse_income
-    button: |
-      Claimant does not know spouse income:
-      ${ word(yesno(claimant_does_not_know_spouse_income)) }
   - Edit: spouse_income_annual
     button: |
       Spouse income annual:

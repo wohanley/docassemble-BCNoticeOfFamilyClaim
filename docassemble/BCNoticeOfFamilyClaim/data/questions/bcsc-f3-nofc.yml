@@ -305,7 +305,7 @@ auto terms:
 id: plaintiff has lawyer
 question: Do you have a lawyer?
 subquestion: |
-  If you have a lawyer **and** you are making a claim under the Family Law Act, your lawyer will need to sign a certificate. This is to make sure that your lawyer has discussed all your options with you, and that filing this form is the right choice for you. If you do have a lawyer but you aren't sure whether your claim is under the Family Law Act, ask your lawyer.
+  If you have a lawyer, your lawyer needs to fill out some extra sections on the forms you need, and this app can't fill them out for you.
 field: plaintiff_has_lawyer
 buttons:
   - I do have a lawyer: True
@@ -313,7 +313,7 @@ buttons:
 ---
 question: This app is not suitable for people who have lawyers.
 subquestion: |
-  If you have a lawyer, the forms you need have more sections, and this app can't fill out those extra sections for you. You should not use this app. Instead, ask your lawyer to help you fill out the forms.
+  If you have a lawyer, your lawyer needs to fill out some extra sections on the forms you need. This is to make sure that your lawyer has discussed all your options with you, and that filing this form is the right choice for you. This app can't fill out those extra sections for you. Instead, ask your lawyer to help you fill out the forms.
 field: plaintiff_understands_lawyer_specific_needs
 buttons:
   - Exit: leave

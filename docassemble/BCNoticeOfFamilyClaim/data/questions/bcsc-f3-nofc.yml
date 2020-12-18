@@ -226,6 +226,10 @@ buttons:
 ---
 question: |
   Were you and ${ str(respondents[0]) } ever in a marriage-like relationship?
+subquestion: |
+  "Marriage-like" is a legal phrase that means you weren't legally married, but you did have a relationship that was similar enough to marriage that some of the laws about marriage apply to you. Some people call this "common-law" marriage, but that isn't how the law refers to it in British Columbia.
+
+  It can be hard to tell sometimes whether a relationship was marriage-like or not, and sometimes people argue over it. When courts need to decide whether a relationship was marriage-like, they ask questions like: Did the people live together under the same roof? Did they share a bed? Did they share money? How did they describe their relationship to family and friends? There are no exact rules. You can read more about marriage-like relationships on [Clicklaw](https://wiki.clicklaw.bc.ca/index.php/Unmarried_Spouses).
 field: plaintiff_and_respondent_did_begin_marriage_like_relationship
 buttons:
   - Yes, our relationship did become marriage-like: True
@@ -240,10 +244,10 @@ fields:
     datatype: date
 ---
 question: |
-  Did you and ${ str(respondents[0]) } continue your marriage-like relationship for a **continuous period** of 2 years or more?
+  Did you and ${ str(respondents[0]) } continue your marriage-like relationship for 2 years or more?
 field: marriage_like_relationship_two_years
 buttons:
-  - Yes, our marriage-like relationship continued with no breaks for at least 2 years: True
+  - Yes, our marriage-like relationship continued for at least 2 years: True
   - No: False
 ---
 question: |

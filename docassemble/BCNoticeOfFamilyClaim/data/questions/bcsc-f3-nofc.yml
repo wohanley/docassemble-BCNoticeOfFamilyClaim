@@ -68,25 +68,45 @@ code: |
   # being made. This is not something that this app deals with - it should be left to the lawyer.
   plaintiff_has_lawyer
   if plaintiff_has_lawyer:
-    plaintiff_understands_lawyer_specific_needs
+    # not eligible; exit
+    plaintiff_understands_not_eligible_because_lawyer
 
   str(respondents[0])
   plaintiff_relationship
   respondent_relationship
 
-  plaintiff_and_respondent_did_begin_marriage_like_relationship
   plaintiff_and_respondent_did_marry
-  plaintiff_and_respondent_did_separate
-  plaintiff_and_respondent_were_divorced
-
-  if plaintiff_and_respondent_did_begin_marriage_like_relationship:
-    marriage_like_relationship_start_date
   if plaintiff_and_respondent_did_marry:
     marriage_date
-  if plaintiff_and_respondent_did_separate:
-    separation_date
+
+  plaintiff_and_respondent_did_begin_marriage_like_relationship
+  if plaintiff_and_respondent_did_begin_marriage_like_relationship:
+    marriage_like_relationship_start_date
+    marriage_like_relationship_two_years
+    if marriage_like_relationship_two_years:
+      # "FLA spouses" here are *not* married, but spouses by other FLA criteria
+      plaintiff_and_respondent_are_fla_spouses = True
+    if not marriage_like_relationship_two_years:
+      plaintiff_and_respondent_have_children
+      if plaintiff_and_respondent_have_children:
+        plaintiff_and_respondent_are_fla_spouses = True
+
+  if not plaintiff_and_respondent_did_marry and not defined(plaintiff_and_respondent_are_fla_spouses):
+    # not eligible; exit
+    plaintiff_understands_not_eligible_because_not_spouse
+
+  plaintiff_and_respondent_were_divorced
   if plaintiff_and_respondent_were_divorced:
     divorce_date
+
+  if not plaintiff_and_respondent_were_divorced:
+    plaintiff_and_respondent_did_separate
+  if plaintiff_and_respondent_did_separate:
+    separation_date
+
+  if not plaintiff_and_respondent_were_divorced and not plaintiff_and_respondent_did_separate:
+    # not eligible; exit
+    plaintiff_understands_not_eligible_because_not_separated
 
   spousal_support_current
   claimant_seeks_divorce_act_order
@@ -191,50 +211,102 @@ fields:
 ---
 id: respondent relationship
 question: "In a few words, describe ${ str(respondents[0]) }'s relationship to ${ str(plaintiffs[0]) }."
+subquestion: |
+  This will probably be almost the same as how you described your relationship to them, just the other way around.
 fields:
   - "${ str(respondents[0]) } is": respondent_relationship
     hint: "for example: married to ${ str(plaintiffs[0]) }"
 ---
-id: Relationship milestones
 question: |
-  What has happened in your relationship with ${ str(respondents[0]) } so far?
-fields:
-  - 'Our relationship became marriage-like.': plaintiff_and_respondent_did_begin_marriage_like_relationship
-    datatype: yesno
-  - 'We got married.': plaintiff_and_respondent_did_marry
-    datatype: yesno
-  - 'We separated.': plaintiff_and_respondent_did_separate
-    datatype: yesno
-  - 'We were divorced.': plaintiff_and_respondent_were_divorced
-    datatype: yesno
+  Were you and ${ str(respondents[0]) } ever married?
+field: plaintiff_and_respondent_did_marry
+buttons:
+  - Yes, we have been married: True
+  - No, we were never married: False
 ---
-id: When did your relationship become marriage-like?
 question: |
-  When did your relationship with ${ str(respondents[0]) } become marriage-like?
+  Were you and ${ str(respondents[0]) } ever in a marriage-like relationship?
+field: plaintiff_and_respondent_did_begin_marriage_like_relationship
+buttons:
+  - Yes, our relationship did become marriage-like: True
+  - No, our relationship was never marriage-like: False
+---
+question: |
+  When did you and ${ str(respondents[0]) } begin to have a marriage-like relationship?
+subquestion: |
+  For example, this might be the date that you first moved in together.
 fields:
-  - Start date: marriage_like_relationship_start_date
+  - Date that relationship became marriage-like: marriage_like_relationship_start_date
     datatype: date
 ---
-id: When were you married?
+question: |
+  Did you and ${ str(respondents[0]) } continue your marriage-like relationship for a **continuous period** of 2 years or more?
+field: marriage_like_relationship_two_years
+buttons:
+  - Yes, our marriage-like relationship continued with no breaks for at least 2 years: True
+  - No: False
+---
+question: |
+  Do you and ${ str(respondents[0]) } have children?
+field: plaintiff_and_respondent_have_children
+buttons:
+  - Yes: True
+  - No: False
+---
+question: |
+  Have you and ${ str(respondents[0]) } been divorced?
+field: plaintiff_and_respondent_were_divorced
+buttons:
+  - Yes, we were divorced: True
+  - No, we are still legally married: False
+---
+question: |
+  Have you and ${ str(respondents[0]) } separated?
+field: plaintiff_and_respondent_did_separate
+buttons:
+  - Yes, we separated: True
+  - No, we are still together: False
+---
 question: |
   When did you and ${ str(respondents[0]) } get married?
 fields:
   - Date of marriage: marriage_date
     datatype: date
 ---
-id: When did you separate?
 question: |
   When did you and ${ str(respondents[0]) } separate?
 fields:
   - Date of separation: separation_date
     datatype: date
 ---
-id: When were you divorced?
 question: |
   When were you and ${ str(respondents[0]) } divorced?
 fields:
   - Date of divorce: divorce_date
     datatype: date
+---
+question: |
+  It doesn't look like you're eligible for spousal support.
+subquestion: |
+  To receive spousal support, at least one of these must apply to you:
+    1. You and ${ str(respondents[0]) } were married.
+    2. You and ${ str(respondents[0]) } lived in a marriage-like relationship and had children.
+    3. You and ${ str(respondents[0]) } lived in a marriage-like relationship for at least 2 years.
+
+  If you think one of these categories does apply to you, there might be a mistake in this app, or you might have made a mistake using it. You can start over if you want to try again.
+field: plaintiff_understands_not_eligible_because_not_spouse
+buttons:
+  - Exit: leave
+  - Start over: restart
+---
+question: |
+  It doesn't look like you're eligible for spousal support.
+subquestion: |
+  To receive spousal support, uou and ${ str(respondents[0]) } must be separated or divorced. If you think one of these categories does apply to you, there might be a mistake in this app, or you might have made a mistake using it. You can start over if you want to try again.
+field: plaintiff_understands_not_eligible_because_not_separated
+buttons:
+  - Exit: leave
+  - Start over: restart
 ---
 id: spousal support current
 question: |
@@ -311,10 +383,10 @@ buttons:
   - I do have a lawyer: True
   - I do not have a lawyer: False
 ---
-question: This app is not suitable for people who have lawyers.
+question: This app doesn't work for people who have lawyers.
 subquestion: |
   If you have a lawyer, your lawyer needs to fill out some extra sections on the forms you need. This is to make sure that your lawyer has discussed all your options with you, and that filing this form is the right choice for you. This app can't fill out those extra sections for you. Instead, ask your lawyer to help you fill out the forms.
-field: plaintiff_understands_lawyer_specific_needs
+field: plaintiff_understands_not_eligible_because_lawyer
 buttons:
   - Exit: leave
   - Start over: restart

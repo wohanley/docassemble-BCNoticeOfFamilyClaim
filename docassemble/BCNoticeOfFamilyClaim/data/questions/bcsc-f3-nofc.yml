@@ -283,6 +283,9 @@ question: |
 fields:
   - "I do know": claimant_knows_spouse_income
     datatype: yesno
+auto terms:
+  gross annual income: |
+    "Gross annual income" is the total amount of money your spouse makes in a year before they pay taxes.
 ---
 id: spouse income
 question: |
@@ -295,6 +298,9 @@ fields:
     min: 0
   - "I believe this is my spouse's gross annual income because of these facts: ": spouse_income_facts
     maxlength: 539
+auto terms:
+  gross annual income: |
+    "Gross annual income" is the total amount of money your spouse makes in a year before they pay taxes.
 ---
 id: plaintiff has lawyer
 question: Do you have a lawyer?

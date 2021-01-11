@@ -79,19 +79,21 @@ code: |
   if plaintiff_and_respondent_did_marry:
     marriage_date
 
+  # "FLA spouses" here are *not* married, but spouses by other FLA criteria
+  plaintiff_and_respondent_are_fla_spouses = False
+
   plaintiff_and_respondent_did_begin_marriage_like_relationship
   if plaintiff_and_respondent_did_begin_marriage_like_relationship:
     marriage_like_relationship_start_date
     marriage_like_relationship_two_years
     if marriage_like_relationship_two_years:
-      # "FLA spouses" here are *not* married, but spouses by other FLA criteria
       plaintiff_and_respondent_are_fla_spouses = True
     if not marriage_like_relationship_two_years:
       plaintiff_and_respondent_have_children
       if plaintiff_and_respondent_have_children:
         plaintiff_and_respondent_are_fla_spouses = True
 
-  if not plaintiff_and_respondent_did_marry and not defined(plaintiff_and_respondent_are_fla_spouses):
+  if not plaintiff_and_respondent_did_marry and not plaintiff_and_respondent_are_fla_spouses:
     # not eligible; exit
     plaintiff_understands_not_eligible_because_not_spouse
 

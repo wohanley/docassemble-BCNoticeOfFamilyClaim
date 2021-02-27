@@ -1,3 +1,7 @@
+include:
+  - docassemble.AssemblyLine:al_package.yml
+  - docassemble.ALBritishColumbia:al_british_columbia.yml
+---
 comment: |
   The metadata section controls the tab title and saved interview title. You can delete this section if you include this YAML file in another YAML file.
 metadata:
@@ -5,12 +9,11 @@ metadata:
     Notice of Family Claim
   short title: |
     NoFC
----
-objects from file:
-  - court_registries: court_registries.yml
+  logo: |
+    <div></div>
 ---
 comment: |
-  This section is used by MAVirtualCourts to control how some of the questions work.
+  This section is used by AssemblyLine to control how some of the questions work.
 mandatory: True
 code: |
   interview_metadata # make sure we initialize the object
@@ -30,9 +33,6 @@ code: |
     'attachment block variable': 'bcscf3nofc_attachment',
     'typical role': 'plaintiff',
   })
----
-include:
-  - docassemble.MAVirtualCourt:basic-questions.yml
 ---
 features:
   navigation: True
@@ -57,7 +57,7 @@ code: |
 
   # Begin interview flow
 
-  basic_questions_intro_screen 
+  al_intro_screen 
   bcscf3nofc_intro
   # Set the allowed courts for this interview
   allowed_courts = interview_metadata["bcscf3nofc"]["allowed courts"]

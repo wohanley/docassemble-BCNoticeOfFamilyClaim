@@ -377,9 +377,10 @@ fields:
 id: spouse income known
 question: |
   Do you know your spouse's gross annual income?
-fields:
-  - "I do know": claimant_knows_spouse_income
-    datatype: yesno
+field: claimant_knows_spouse_income
+buttons:
+  - Yes, I do know: True
+  - No, I don't know: False
 auto terms:
   gross annual income: |
     "Gross annual income" is the total amount of money your spouse makes in a year before they pay taxes.

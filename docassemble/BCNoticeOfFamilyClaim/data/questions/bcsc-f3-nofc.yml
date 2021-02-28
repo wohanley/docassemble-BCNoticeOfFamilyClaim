@@ -72,8 +72,6 @@ code: |
     plaintiff_understands_not_eligible_because_lawyer
 
   str(respondents[0])
-  plaintiff_relationship
-  respondent_relationship
 
   plaintiff_and_respondent_did_marry
   if plaintiff_and_respondent_did_marry:
@@ -109,6 +107,25 @@ code: |
   if not plaintiff_and_respondent_were_divorced and not plaintiff_and_respondent_did_separate:
     # not eligible; exit
     plaintiff_understands_not_eligible_because_not_separated
+
+  # Enough information now to take a pretty good guess at
+  # {plaintiff,respondent}_relationship
+
+  if plaintiff_and_respondent_did_begin_marriage_like_relationship:
+    plaintiff_relationship_suggestion = f"in a marriage-like relationship with {str(respondents[0])}"
+    respondent_relationship_suggestion = f"in a marriage-like relationship with {str(plaintiffs[0])}"
+  if plaintiff_and_respondent_did_marry:
+    plaintiff_relationship_suggestion = f"married to {str(respondents[0])}"
+    respondent_relationship_suggestion = f"married to {str(plaintiffs[0])}"
+  if plaintiff_and_respondent_did_separate:
+    plaintiff_relationship_suggestion = f"separated from {str(respondents[0])}"
+    respondent_relationship_suggestion = f"separated from {str(plaintiffs[0])}"
+  if plaintiff_and_respondent_were_divorced:
+    plaintiff_relationship_suggestion = f"divorced from {str(respondents[0])}"
+    respondent_relationship_suggestion = f"divorced from {str(plaintiffs[0])}"
+
+  plaintiff_relationship
+  respondent_relationship
 
   spousal_support_current
   claimant_seeks_divorce_act_order
@@ -209,7 +226,8 @@ id: plaintiff relationship
 question: In a few words, describe your relationship to ${ str(respondents[0]) }.
 fields:
   - "I am: ": plaintiff_relationship
-    hint: "for example: separated from ${ str(respondents[0]) }"
+    default: ${ plaintiff_relationship_suggestion }
+    hint: "for example: ${ plaintiff_relationship_suggestion }"
 ---
 id: respondent relationship
 question: "In a few words, describe ${ str(respondents[0]) }'s relationship to ${ str(plaintiffs[0]) }."
@@ -217,7 +235,8 @@ subquestion: |
   This will probably be almost the same as how you described your relationship to them, just the other way around.
 fields:
   - "${ str(respondents[0]) } is": respondent_relationship
-    hint: "for example: married to ${ str(plaintiffs[0]) }"
+    default: ${ respondent_relationship_suggestion }
+    hint: "for example: ${ respondent_relationship_suggestion }"
 ---
 question: |
   Were you and ${ str(respondents[0]) } ever married?

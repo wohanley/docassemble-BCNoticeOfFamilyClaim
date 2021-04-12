@@ -31,7 +31,7 @@ code: |
     ],
     'logic block variable': 'bcscf3nofc',
     'attachment block variable': 'bcscf3nofc_attachment',
-    'typical role': 'plaintiff',
+    'typical role': 'plaintiff'
   })
 ---
 features:

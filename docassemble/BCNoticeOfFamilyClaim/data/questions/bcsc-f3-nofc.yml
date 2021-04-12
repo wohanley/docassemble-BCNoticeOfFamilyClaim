@@ -73,6 +73,8 @@ code: |
     # not eligible; exit
     plaintiff_understands_not_eligible_because_lawyer
 
+  # Get information about the user and respondent
+  str(plaintiffs[0])
   str(respondents[0])
 
   # "FLA spouses" here are *not* married, but spouses by other FLA criteria
@@ -187,6 +189,16 @@ subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
    ${ bcscf3nofc_attachment['preview'] }
+---
+id: respondent name
+question: What is the name of the person you want spousal support from?
+fields:
+  - First name: other_parties[0].name.first
+  - Last name: other_parties[0].name.last
+  - Suffix: other_parties[0].name.suffix
+    code: |
+      name_suffix()
+    required: False
 ---
 id: Case history
 question: |

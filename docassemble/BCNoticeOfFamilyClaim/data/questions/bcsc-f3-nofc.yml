@@ -73,10 +73,6 @@ code: |
 
   str(respondents[0])
 
-  plaintiff_and_respondent_did_marry
-  if plaintiff_and_respondent_did_marry:
-    marriage_date
-
   # "FLA spouses" here are *not* married, but spouses by other FLA criteria
   plaintiff_and_respondent_are_fla_spouses = False
 
@@ -91,18 +87,22 @@ code: |
       if plaintiff_and_respondent_have_children:
         plaintiff_and_respondent_are_fla_spouses = True
 
+  plaintiff_and_respondent_did_marry
+  if plaintiff_and_respondent_did_marry:
+    plaintiff_and_respondent_are_fla_spouses = False
+    marriage_date
+
   if not plaintiff_and_respondent_did_marry and not plaintiff_and_respondent_are_fla_spouses:
     # not eligible; exit
     plaintiff_understands_not_eligible_because_not_spouse
 
+  plaintiff_and_respondent_did_separate
+  if plaintiff_and_respondent_did_separate:
+    separation_date
+
   plaintiff_and_respondent_were_divorced
   if plaintiff_and_respondent_were_divorced:
     divorce_date
-
-  if not plaintiff_and_respondent_were_divorced:
-    plaintiff_and_respondent_did_separate
-  if plaintiff_and_respondent_did_separate:
-    separation_date
 
   if not plaintiff_and_respondent_were_divorced and not plaintiff_and_respondent_did_separate:
     # not eligible; exit
@@ -248,7 +248,7 @@ buttons:
 question: |
   Were you and ${ str(respondents[0]) } ever in a marriage-like relationship?
 subquestion: |
-  "Marriage-like" is a legal phrase that means you weren't legally married, but you did have a relationship that was similar enough to marriage that some of the laws about marriage apply to you. Some people call this "common-law" marriage, but that isn't how the law refers to it in British Columbia.
+  "Marriage-like" is a legal phrase that means you weren't legally married, but you did have a relationship that was similar enough to marriage that some of the laws about marriage apply to you. Some people call this "common-law" marriage, but that isn't how the law refers to it in British Columbia. You may have been in a marriage-like relationship at some point before getting married.
 
   It can be hard to tell sometimes whether a relationship was marriage-like or not, and sometimes people argue over it. When courts need to decide whether a relationship was marriage-like, they ask questions like: Did the people live together under the same roof? Did they share a bed? Did they share money? How did they describe their relationship to family and friends? There are no exact rules. You can read more about marriage-like relationships on [Clicklaw](https://wiki.clicklaw.bc.ca/index.php/Unmarried_Spouses).
 field: plaintiff_and_respondent_did_begin_marriage_like_relationship

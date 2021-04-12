@@ -55,14 +55,17 @@ code: |
 
   accumulated_template = pdf_concatenate(f3_base, f3_sched_3)
 
-  # Begin interview flow
-
-  al_intro_screen 
-  bcscf3nofc_intro
-  # Set the allowed courts for this interview
+  # Set some metadata. Prevents unnecessary questions being asked
   allowed_courts = interview_metadata["bcscf3nofc"]["allowed courts"]
   nav.set_section('review_bcscf3nofc')
+  al_form_type = 'starts_case'
   user_role = 'plaintiff'
+  users.there_is_another = False
+
+  # Begin interview flow
+
+  al_intro_screen
+  bcscf3nofc_intro
 
   # If the claimant has a lawyer, the lawyer needs to fill out certificates if certain claims are
   # being made. This is not something that this app deals with - it should be left to the lawyer.

@@ -69,7 +69,6 @@ code: |
 
   # If the claimant has a lawyer, the lawyer needs to fill out certificates if certain claims are
   # being made. This is not something that this app deals with - it should be left to the lawyer.
-  plaintiff_has_lawyer
   if plaintiff_has_lawyer:
     # not eligible; exit
     plaintiff_understands_not_eligible_because_lawyer
@@ -79,7 +78,6 @@ code: |
   # "FLA spouses" here are *not* married, but spouses by other FLA criteria
   plaintiff_and_respondent_are_fla_spouses = False
 
-  plaintiff_and_respondent_did_begin_marriage_like_relationship
   if plaintiff_and_respondent_did_begin_marriage_like_relationship:
     marriage_like_relationship_start_date
     marriage_like_relationship_two_years
@@ -90,7 +88,6 @@ code: |
       if plaintiff_and_respondent_have_children:
         plaintiff_and_respondent_are_fla_spouses = True
 
-  plaintiff_and_respondent_did_marry
   if plaintiff_and_respondent_did_marry:
     plaintiff_and_respondent_are_fla_spouses = False
     marriage_date
@@ -99,11 +96,9 @@ code: |
     # not eligible; exit
     plaintiff_understands_not_eligible_because_not_spouse
 
-  plaintiff_and_respondent_did_separate
   if plaintiff_and_respondent_did_separate:
     separation_date
 
-  plaintiff_and_respondent_were_divorced
   if plaintiff_and_respondent_were_divorced:
     divorce_date
 
@@ -130,22 +125,28 @@ code: |
   plaintiff_relationship
   respondent_relationship
 
+  # What support do you want?
+
   spousal_support_current
   claimant_seeks_divorce_act_order
   claimant_seeks_family_law_act_order
   claimant_proposes_support
+
   if claimant_proposes_support:
     spousal_support_proposed
+
   claimant_income_annual_gross
-  claimant_knows_spouse_income
   if claimant_knows_spouse_income:
     spouse_income_annual_gross
     spouse_income_facts
+
+  # Case history
 
   prior_written_agreement_does_relate
   prior_court_order_does_relate
   prior_court_proceeding_does_relate
   nothing_prior_does_relate
+
   if prior_written_agreement_does_relate:
     prior_written_agreement_date
   if prior_court_order_does_relate:
@@ -156,6 +157,8 @@ code: |
 
   court_file_number
   court_registry
+
+  # Signature etc
 
   str(plaintiffs[0])
   plaintiffs[0].address.block()

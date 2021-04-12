@@ -512,8 +512,8 @@ attachment:
       - "plaintiff_name__3": ${ str(plaintiffs[0]) }
       - "court_file_number": ${ court_file_number }
       - "court_registry": ${ court_registry.name }
-      - "court_registry__2": ${ court_registry.name }
-      - "court_registry_address": ${ court_registry.address }
+      - "place_of_trial": ${ court_registry.name }
+      - "place_of_trial_registry_address": ${ court_registry.address }
       - "plaintiff_relationship": ${ plaintiff_relationship }
       - "respondent_relationship": ${ respondent_relationship }
       - "plaintiff_and_respondent_did_begin_marriage_like_relationship": ${ plaintiff_and_respondent_did_begin_marriage_like_relationship }

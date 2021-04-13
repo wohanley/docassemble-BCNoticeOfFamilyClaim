@@ -544,7 +544,15 @@ attachment:
       - "respondent_name": ${ str(respondents[0]) }
       - "respondent_name__2": ${ str(respondents[0]) }
       - "plaintiff_name__2": ${ str(plaintiffs[0]) }
-      - "plaintiff_address_block": ${ plaintiff_mailing_address }
+      # plaintiff_mailing_address ultimately comes from user input into a textarea. Canonical
+      # representation of newlines in textareas is \r\n. When we fill such a multiline string into a
+      # PDF, \r\n results in two line breaks instead of the one the user typed. This is hacky - a
+      # better solution would be to do the replacement at ingress, but that would require changes to
+      # Docassemble. Might make a pull request at some point.
+      #
+      # n.b. This is not the only multiline text we get from users, but the problem isn't as
+      # impactful elsewhere.
+      - "plaintiff_address_block": ${ plaintiff_mailing_address.replace('\r\n', '\n') }
       - "plaintiff_email": ${ plaintiffs[0].email }
       - "signature_date": ${ signature_date }
       # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version

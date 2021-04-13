@@ -155,6 +155,7 @@ code: |
 
   str(plaintiffs[0])
   plaintiff_mailing_address
+  plaintiff_email
   plaintiff_fax
   signature_date
 
@@ -465,21 +466,14 @@ fields:
   - "Address": plaintiff_mailing_address
     input type: area
 ---
-id: plaintiff email
+id: plaintiff_alternative_contact
 question: |
-  Would you like the court to be able to contact you through email?
+  Would you like the court to be able to contact you through email or fax?
 subquestion: |
-  If you have an email address you would like to be contacted at, enter it here. If you don't have an email address, you don't need to enter anything.
+  If you have an email address or fax number you would like to be contacted at, enter them here. If you don't have an email address or a fax number, you don't need to enter anything.
 fields:
   - Email address: plaintiff_email
     required: False
----
-id: plaintiff fax
-question: |
-  Would you like the court to be able to contact you through fax?
-subquestion: |
-  If you have a fax number you would like to be reached at, enter it here. If you don't have a fax number, you don't need to enter anything.
-fields:
   - Fax number: plaintiff_fax
     required: False
 ---

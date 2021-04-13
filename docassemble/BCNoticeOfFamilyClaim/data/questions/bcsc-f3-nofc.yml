@@ -555,6 +555,7 @@ attachment:
       - "spouse_income_facts": ${ spouse_income_facts }
       - "plaintiff_fax": ${ plaintiff_fax }
       - "signer_name": ${ plaintiffs[0].name }
+      - "signer_is_plaintiff": ${ True }
 ---
 id: bcscf3nofc review screen
 event: review_bcscf3nofc

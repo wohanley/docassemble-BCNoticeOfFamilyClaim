@@ -51,7 +51,6 @@ code: |
 
   # Begin interview flow
 
-  al_intro_screen
   bcscf3nofc_intro
 
   # If the claimant has a lawyer, the lawyer needs to fill out certificates if certain claims are
@@ -161,12 +160,31 @@ code: |
 
   bcscf3nofc = True
 ---
-id: Notice of Family Claim
-continue button field: bcscf3nofc_intro
+# Intro screen mostly lifted from docassemble-AssemblyLine
+id: intro
+decoration: form-lineal
 question: |
   Notice of Family Claim for spousal support
 subquestion: |
-  This app will help you fill out the forms you need to get the court to tell your spouse to pay you spousal support. The court calls this Form F3, or Notice of Family Claim.
+  This app will help you fill out the forms you need to get the court to tell your spouse to pay you spousal support. The court calls this Form F3, or Notice of Family Claim. There are 3 steps:
+
+  Step 1. Answer questions that will fill in your form for you.  
+  Step 2. Preview the completed form.  
+  Step 3. Download the final form. You will need to deliver it to the court on your own, whether in the mail or online.  
+
+  Tap the {green words} in any screen for a definition or more information.
+
+continue button field: bcscf3nofc_intro
+right: |
+  % if user_has_saved_answers:
+  ${fa_icon("bell", color="primary", size="sm")}
+  Saved answers available!  
+  
+  ${action_button_html(url_action('load_answer'), icon="folder-open", label=word("View answers"), size="sm" )}
+  % endif
+terms:
+  green words: |
+    Green words are legal terms or a short way of referring to something that needs more explanation. The definition or explanation pops up when you tap the green words.
 ---
 id: Placeholder preview screen
 continue button field: bcscf3nofc_preview_question

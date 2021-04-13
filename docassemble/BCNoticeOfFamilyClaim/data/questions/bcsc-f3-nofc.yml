@@ -368,6 +368,7 @@ subquestion: |
   Describe how your spousal support works right now. How much are you paid? How often are you paid?
 fields:
   - 'My current spousal support arrangements are: ': spousal_support_current
+    input type: area
     maxlength: 539
 ---
 id: spousal support order options

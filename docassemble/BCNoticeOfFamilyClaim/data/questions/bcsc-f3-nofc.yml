@@ -154,7 +154,7 @@ code: |
   # Signature etc
 
   str(plaintiffs[0])
-  plaintiffs[0].address.block()
+  plaintiff_mailing_address
   plaintiff_fax
   signature_date
 
@@ -450,6 +450,18 @@ question: What is your lawyer's name?
 fields:
   - "Lawyer's name": plaintiff_lawyer_name
 ---
+id: plaintiff mailing address
+question: What is your mailing address?
+subquestion: |
+  For example:
+
+  123 My Street  
+  My Town, BC  
+  A1B 2C3
+fields:
+  - "Address": plaintiff_mailing_address
+    input type: area
+---
 id: plaintiff email
 question: |
   Would you like the court to be able to contact you through email?
@@ -535,7 +547,7 @@ attachment:
       - "respondent_name": ${ str(respondents[0]) }
       - "respondent_name__2": ${ str(respondents[0]) }
       - "plaintiff_name__2": ${ str(plaintiffs[0]) }
-      - "plaintiff_address_block": ${ plaintiffs[0].address.block() }
+      - "plaintiff_address_block": ${ plaintiff_mailing_address }
       - "plaintiff_email": ${ plaintiffs[0].email }
       - "signature_date": ${ signature_date }
       # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
@@ -723,10 +735,10 @@ review:
     button: |
       respondents[0]:
       ${ respondents[0] }
-  - Edit: plaintiffs[0].address.address
+  - Edit: plaintiff_mailing_address
     button: |
-      plaintiffs[0].address.address:
-      ${ plaintiffs[0].address.address }
+      plaintiff_mailing_address:
+      ${ plaintiff_mailing_address }
   - Edit: plaintiffs[0].email
     button: |
       plaintiffs[0].email:

@@ -391,6 +391,7 @@ subquestion: |
   Describe how you would like your spousal support to work. How much should you be paid? How often should you be paid? How long should should you keep receiving payments?
 fields:
   - 'My spousal support should work like this: ': spousal_support_proposed
+    input type: area
     maxlength: 539
 ---
 id: plaintiff income
@@ -424,6 +425,7 @@ fields:
     datatype: currency
     min: 0
   - "I believe this is my spouse's gross annual income because of these facts: ": spouse_income_facts
+    input type: area
     maxlength: 539
 auto terms:
   gross annual income: |

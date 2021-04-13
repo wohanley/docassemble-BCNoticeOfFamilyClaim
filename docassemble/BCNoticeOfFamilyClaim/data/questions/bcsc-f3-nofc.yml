@@ -34,6 +34,11 @@ code: |
     'typical role': 'plaintiff'
   })
 ---
+# Remove `under` part from AL, none of it applies
+default screen parts:
+  under: |
+    
+---
 features:
   navigation: True
 ---

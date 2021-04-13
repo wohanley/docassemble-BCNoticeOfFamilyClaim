@@ -40,21 +40,8 @@ features:
 sections:
   - review_bcscf3nofc: Review your answers
 ---
-objects:
-  - accumulated_template: DAFile
-  - f3_base: DAStaticFile
-  - f3_sched_3: DAStaticFile
-  - f3_lawyer_certificate: DAStaticFile
----
 id: interview_order_bcscf3nofc
 code: |
-  # Initialize template files
-
-  f3_base.filename = 'data/templates/f3-base.pdf'
-  f3_sched_3.filename = 'data/templates/f3-sched-3.pdf'
-
-  accumulated_template = pdf_concatenate(f3_base, f3_sched_3)
-
   # Set some metadata. Prevents unnecessary questions being asked
   allowed_courts = interview_metadata["bcscf3nofc"]["allowed courts"]
   nav.set_section('review_bcscf3nofc')
@@ -515,8 +502,7 @@ attachment:
     name: NoFC
     filename: NoFC
     skip undefined: True
-    pdf template file:
-      code: accumulated_template
+    pdf template file: f3-w-sched-3.pdf
     fields: 
       - "plaintiff_name": ${ str(plaintiffs[0]) }
       - "respondent_name": ${ str(respondents[0]) }

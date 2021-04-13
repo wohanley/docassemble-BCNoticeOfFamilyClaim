@@ -506,10 +506,14 @@ subquestion: |
   % if plaintiff_has_lawyer:
   * Have your lawyer complete the Lawyer's Certificate (the last page of the form).
   % endif
-  * File your completed form with the court. You can either mail the form or file it online.
-    * Option 1: Print the form and mail it to the court registry. The address for the ${ court_registry.name } registry is:
-      ${ court_registry.address }
-    * Option 2: File the form online through [Court Services Online](https://justice.gov.bc.ca/cso/index.do). You will need to register for an account with Court Services Online and an account with BCeID. You can register for these accounts online, for free.
+  You will have to file your completed form with the court. You can either mail the form or file it online.
+
+  Option 1: Print the form and mail it to the court registry. The address for the ${ court_registry.name } registry is:
+
+  <%doc>Make Markdown add line breaks</%doc>
+  ${ court_registry.address.replace('\n', '  \n') }
+
+  Option 2: File the form online through [Court Services Online](https://justice.gov.bc.ca/cso/index.do). You will need to register for an account with Court Services Online and an account with BCeID. You can register for these accounts online, for free.
 
   Below is a preview of your form.
   
